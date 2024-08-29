@@ -15,3 +15,12 @@ after_success:
   - docker build -t matz/multi-nginx ./nginx
   - docker build -t matz/multi-server ./server
   - docker build -t matz/multi-worker ./worker
+
+  #Log in to the docker CLI. SOCKER_PASSWORD e DOCKER_ID sono variabili d'ambiente da definire in Github
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID --password stdin"
+
+#Push images to docker hub
+  - docker push matz/multi-client
+  - docker push matz/multi-nginx
+  - docker push matz/multi-server
+  - docker push matz/multi-worker
