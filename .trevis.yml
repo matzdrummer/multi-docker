@@ -1,0 +1,17 @@
+language: generic 
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t matz/react-test -f./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true matz/react-test npm test
+
+after_success:
+  - docker build -t matz/multi-client ./client
+  - docker build -t matz/multi-nginx ./nginx
+  - docker build -t matz/multi-server ./server
+  - docker build -t matz/multi-worker ./worker
